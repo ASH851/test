@@ -17,7 +17,7 @@ jobs:
       - name: Validate Key
         id: set-output
         run: |
-          if [[ "${{ github.event.inputs.deploy_key }}" != "letmein123" ]]; then
+          if [[ "${{ github.event.inputs.deploy_key }}" != "ash123" ]]; then
             echo " Invalid deployment key. Failing workflow."
             exit 1
           fi
