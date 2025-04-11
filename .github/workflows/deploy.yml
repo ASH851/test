@@ -1,5 +1,22 @@
-steps:
-  - name: Deploy after approval
-    run: |
-      echo "🚀 Deploying to production environment!"
-      echo "✅ Deployed!"
+name: Secure Deployment with Approval
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Build Script
+        run: echo "Building the application..."
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production # This triggers the required approval
+    steps:
+      - name: Deploy to Production
+        run: echo "Deploying to production environment..."
