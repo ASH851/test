@@ -11,7 +11,6 @@ jobs:
 
       - name: Run Build Script
         run: echo "Building the application..."
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
