@@ -1,4 +1,5 @@
-name: Secure Deployment with Approval
+name: Secure Deploy with Approval
+
 on:
   workflow_dispatch:
 
@@ -6,15 +7,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Run Build Script
+      - name: Build App
         run: echo "Building the application..."
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment: production
     steps:
       - name: Deploy to Production
-        run: echo "Deploying to production environment..."
+        run: echo "Deploying to production..."
