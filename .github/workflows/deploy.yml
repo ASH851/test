@@ -1,5 +1,4 @@
 name: Secure Deployment with Approval
-
 on:
   workflow_dispatch:
 
@@ -16,7 +15,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: production # This triggers the required approval
+    environment: production
     steps:
       - name: Deploy to Production
         run: echo "Deploying to production environment..."
