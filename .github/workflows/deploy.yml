@@ -1,0 +1,5 @@
+steps:
+  - name: Deploy after approval
+    run: |
+      echo "🚀 Deploying to production environment!"
+      echo "✅ Deployed!"
