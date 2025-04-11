@@ -1,39 +1,43 @@
-name: Secure Deploy with Key and Approval
+name: Change Request
 
 on:
   workflow_dispatch:
     inputs:
       deploy_key:
-        description: ' Enter the deployment key'
+        description: 'Enter the deployment key'
         required: true
         default: ''
 
 jobs:
-  build:
+  validate_key:
     runs-on: ubuntu-latest
+    outputs:
+      validated: ${{ steps.set-output.outputs.validated }}
     steps:
-      - name: Checkout code
+      - name: Validate Key
+        id: set-output
+        run: |
+          if [[ "${{ github.event.inputs.deploy_key }}" != "letmein123" ]]; then
+            echo " Invalid deployment key. Failing workflow."
+            exit 1
+          fi
+          echo "Valid key"
+          echo "validated=true" >> $GITHUB_OUTPUT
+
+  build:
+    needs: validate_key
+    runs-on: ubuntu-latest
+    if: needs.validate_key.outputs.validated == 'true'
+    steps:
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Build App
         run: echo " Building the application..."
 
-  validate_key:
+  deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Validate Deployment Key
-        run: |
-          if [[ "${{ github.event.inputs.deploy_key }}" != "ash123" ]]; then
-            echo " Invalid deployment key. Access denied."
-            exit 1
-          fi
-          echo " Deployment key is valid."
-
-  deploy:
-    needs: validate_key
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Deploy Application
-        run: echo " Deploying to production environment..."
+      - name: Deploy App
+        run: echo " Deploying the application..."
