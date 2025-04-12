@@ -26,8 +26,10 @@ jobs:
 
   build:
     needs: validate_key
-    runs-on: ubuntu-latest
     if: needs.validate_key.outputs.validated == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: approval
     steps:
       - name: Checkout
         uses: actions/checkout@v4
